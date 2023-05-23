@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import os
 
-class DataCleaningAndProcessing:
+class DataCleaningAndProcessing:    
+
     def import_csv_to_numpy_array(self, path_to_csv_file):
         return np.genfromtxt(path_to_csv_file, delimiter=',',skip_header=0)
     
