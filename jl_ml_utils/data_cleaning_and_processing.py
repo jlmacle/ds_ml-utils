@@ -7,7 +7,7 @@ class DataCleaningAndProcessing:
     def import_csv_to_numpy_array(self, path_to_csv_file):
         return np.genfromtxt(path_to_csv_file, delimiter=',',skip_header=0)
     
-    def import_csv_to_dataframe(self, path_to_csv_file):
+    def import_csv_to_df(self, path_to_csv_file):
         return pd.read_csv(path_to_csv_file)
 
     def data_cleaning(self, path_to_csv_folder, csv_name):
