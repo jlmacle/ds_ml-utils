@@ -59,8 +59,8 @@ class DataReporting :
 
     # Functions related to added string data
 
-    def add_string_data(self, string_data, y_increment):
-        self.pdf_writer.drawString(self.left_margin, self.top_margin+self.Y*y_increment, string_data)
+    def add_string_data(self, string_data, top_margin, y_increment):
+        self.pdf_writer.drawString(self.left_margin, top_margin+self.Y*y_increment, string_data)
         
     # Misc
     def add_page_number(self):
@@ -68,5 +68,6 @@ class DataReporting :
 
     def set_font(self, font_name, font_size):
         self.pdf_writer.setFont(font_name, font_size)
+
         
 
