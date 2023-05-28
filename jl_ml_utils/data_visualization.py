@@ -51,30 +51,46 @@ class DataVisualization:
         with open(file_path) as file:
             for i in range(n):
                 self.print_to_csv_file(file.readline())
+    
+    # Function used to print a nested list into a csv string
+    def print_describe_nested_list_to_csv_string(self, nested_list):
+        first_column_data = ["count", "mean", "std", "min", "25%", "50%", "75%", "max"]
+        string = ""
+        for i, line in enumerate(nested_list):
+            string = string + first_column_data[i] + ","
+            for item in line:
+                string += str(item) + ","
+            # Removing the last comma
+            string = string[:-1]            
+            string += "\n"
+        return string
+
+    # Function used to have the label row in csv format
+    # TODO: Need finishing / testing
+    def label_row_to_csv_format_when_first_value_empty(self, data, label_pairs_to_switch_to_space_free_format):
+        print(data)
+        for label_pair in label_pairs_to_switch_to_space_free_format:
+            print(label_pair)
+            data = data.replace(label_pair[0], label_pair[1])
+        # Splitting the data while suppressing spaces
+        print(data.split())
+
 
     # Function used to go from <to re-think> to CSV data
-    def table_data_with_label_row_to_csv(self, data):  
+    def table_data_with_label_row_ignored_to_csv(self, data):  
         csv_string = ""              
-        first_line = str(data).split("\n")[0]
-        # Adding the first line to csv string
-        csv_string += first_line + "\n"
-        # print(first_line)
+        first_line = str(data).split("\n")[0]   
         # Removing the first line from the data
-        data = str(data).replace(first_line+'\n', "")
-        # print(os.linesep)
-        # print(data)
+        data = str(data).replace(first_line+'\n', "")        
         # Splitting the data into lines
         splitted_text = data.split("\n")
         for line in splitted_text:
             splitted_line = line.split()
-            # print(splitted_line)
             csv_line = ""
             for item in splitted_line:
                 csv_line += item + ","
             csv_line = csv_line[:-1]
             csv_string += csv_line + "\n"
-            # print(csv_line)
-        print(csv_string)
         return csv_string
 
 # Data stats as strings
@@ -103,31 +119,36 @@ class DataVisualization:
     # TODO : additional print_to_csv_file / print_to_txt_file
     def simple_stats(self, df):
         # extra empty line for readability
-        self.print_to_csv_file(os.linesep)
-        self.print_to_csv_file("Number of rows," + str(df.shape[0]))
-        self.print_to_csv_file("Number of features," + str(df.shape[1]))
+            #to txt
         self.print_to_txt_file(os.linesep)
         self.print_to_txt_file("Number of rows\t\t" + str(df.shape[0]))
         self.print_to_txt_file("Number of features\t" + str(df.shape[1]))
+            # to csv
+        self.print_to_csv_file(os.linesep)
+        self.print_to_csv_file("Number of rows," + str(df.shape[0]))
+        self.print_to_csv_file("Number of features," + str(df.shape[1]))
+        
         
         # extra empty line for readability
+            #to txt
         self.print_to_txt_file(os.linesep)
         self.print_to_txt_file("Head of the cleaned data :")
         head_of_cleaned_data = df.head()
-        self.print_to_txt_file(head_of_cleaned_data)        
+        self.print_to_txt_file(head_of_cleaned_data)    
+            # to csv    
         self.print_to_csv_file(os.linesep)
         self.print_n_lines_of_csv_file_to_csv_file(self.path_to_cleaned_data, 5)
        
         # extra empty line for readability
+            # to txt
         self.print_to_txt_file(os.linesep)
         self.print_to_txt_file("Description of the dataframe :")     
         stats = df.describe()
         self.print_to_txt_file(stats)
-        csv_stats = stats.array_with_label_row_to_csv()
-        self.print_to_csv_file(csv_stats)
-
-
-        self.print_to_txt_file(os.linesep)
+            #  to csv
+        self.print_to_csv_file(os.linesep)
+        self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
+        self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist()))        
 
     # Given a column name, get an histogram for the data in that column
     # TODO: probably space to better this code
