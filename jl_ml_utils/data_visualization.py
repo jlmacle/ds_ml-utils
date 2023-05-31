@@ -5,9 +5,6 @@ import os
 import sys
 from io import StringIO
 
-# TODO : Reminder: data visualization should be accessible easily
-# from the console and produced images
-# Pdf generation is an additional feature that should build on this service
 class DataVisualization:      
 
 # Setting files related data
@@ -65,19 +62,8 @@ class DataVisualization:
             string += "\n"
         return string
 
-    # Function used to have the label row in csv format
-    # TODO: Need finishing / testing
-    def label_row_to_csv_format_when_first_value_empty(self, data, label_pairs_to_switch_to_space_free_format):
-        print(data)
-        for label_pair in label_pairs_to_switch_to_space_free_format:
-            print(label_pair)
-            data = data.replace(label_pair[0], label_pair[1])
-        # Splitting the data while suppressing spaces
-        print(data.split())
-
-
     # Function used to go from <to re-think> to CSV data
-    def table_data_with_label_row_ignored_to_csv(self, data):  
+    def table_data_with_label_row_ignored_to_csv(self, data): 
         csv_string = ""              
         first_line = str(data).split("\n")[0]   
         # Removing the first line from the data
@@ -116,7 +102,7 @@ class DataVisualization:
 # Data stats as jpgs
 
 
-    # TODO : additional print_to_csv_file / print_to_txt_file
+
     def simple_stats(self, df):
         # extra empty line for readability
             #to txt
@@ -150,12 +136,6 @@ class DataVisualization:
         self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
         self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist()))        
 
-    # Given a column name, get an histogram for the data in that column
-    # TODO: probably space to better this code
-    def histogram(self, df, column_name):
-        sb.histplot(df, x=column_name)
-        plt.show()
 
-    
 
     
