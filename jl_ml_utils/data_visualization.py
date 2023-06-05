@@ -27,6 +27,7 @@ class DataVisualization:
             sys.stdout = file
             # Will print in the file
             print(text)
+            sys.stdout = sys.__stdout__
 
     # Function used to print the console output into a file
     def print_to_txt_file(self, text: str):         
@@ -34,6 +35,7 @@ class DataVisualization:
             sys.stdout = file
             # Will print in the file
             print(text)
+            sys.stdout = sys.__stdout__
 
     # Function used to print the console output into a string
     def print_to_string(self, text):
@@ -62,7 +64,7 @@ class DataVisualization:
             string += "\n"
         return string
 
-    # Function used to go from <to re-think> to CSV data
+    # Function used to go from tabulated data to CSV data (with first row ignored)
     def table_data_with_label_row_ignored_to_csv(self, data): 
         csv_string = ""              
         first_line = str(data).split("\n")[0]   
@@ -100,9 +102,6 @@ class DataVisualization:
         
     
 # Data stats as jpgs
-
-
-
     def simple_stats(self, df):
         # extra empty line for readability
             #to txt
@@ -124,7 +123,7 @@ class DataVisualization:
             # to csv    
         self.print_to_csv_file(os.linesep)
         self.print_n_lines_of_csv_file_to_csv_file(self.path_to_cleaned_data, 5)
-       
+               
         # extra empty line for readability
             # to txt
         self.print_to_txt_file(os.linesep)
@@ -134,8 +133,4 @@ class DataVisualization:
             #  to csv
         self.print_to_csv_file(os.linesep)
         self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
-        self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist()))        
-
-
-
-    
+        self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist()))      
