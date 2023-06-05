@@ -51,7 +51,7 @@ class DataVisualization:
             for i in range(n):
                 self.print_to_csv_file(file.readline())
     
-    # Function used to print a nested list into a csv string
+    # Function used to print the describe info into a csv string
     def print_describe_nested_list_to_csv_string(self, nested_list):
         first_column_data = ["count", "mean", "std", "min", "25%", "50%", "75%", "max"]
         string = ""
@@ -111,8 +111,7 @@ class DataVisualization:
             # to csv
         self.print_to_csv_file(os.linesep)
         self.print_to_csv_file("Number of rows," + str(df.shape[0]))
-        self.print_to_csv_file("Number of features," + str(df.shape[1]))
-        
+        self.print_to_csv_file("Number of features," + str(df.shape[1]))        
         
         # extra empty line for readability
             #to txt
@@ -133,4 +132,8 @@ class DataVisualization:
             #  to csv
         self.print_to_csv_file(os.linesep)
         self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
-        self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist()))      
+        self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist())) 
+
+# Misc
+    def get_unique_count_values_csv_row(self):
+        return ",Unique Values,Count"

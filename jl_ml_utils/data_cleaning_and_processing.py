@@ -12,8 +12,8 @@ class DataCleaningAndProcessing:
         return np.genfromtxt(path_to_csv_file, delimiter=',' , skip_header=skip_header_option)
     
     
-    def import_csv_to_df(self, path_to_csv_file, hasLowMemoryOption):
-        return pd.read_csv(path_to_csv_file, low_memory=hasLowMemoryOption)
+    def import_csv_to_df(self, path_to_csv_file, has_low_memory_option):
+        return pd.read_csv(path_to_csv_file, low_memory=has_low_memory_option)
 
 # 2. Data encoding fixing 
    
