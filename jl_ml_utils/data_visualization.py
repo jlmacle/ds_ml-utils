@@ -37,6 +37,22 @@ class DataVisualization:
             print(text)
             sys.stdout = sys.__stdout__
 
+    # Function used to print the output of a function with no return value into a file
+    def print_function_output_and_not_the_return_value_to_txt_file(self, function, *args):
+        with open(os.path.join(self.path_to_folder, self.txt_file_name), 'a') as file:
+            sys.stdout = file
+            # Will print in the file
+            function(*args)
+            sys.stdout = sys.__stdout__
+
+    # Function used to print the output of a function with no return value into a string
+    def print_function_output_and_not_the_return_value_to_string(self, function, *args):
+        string = StringIO()
+        sys.stdout = string
+        function(*args)
+        sys.stdout = sys.__stdout__
+        return string.getvalue()
+
     # Function used to print the console output into a string
     def print_to_string(self, text):
         string = StringIO()
@@ -80,6 +96,18 @@ class DataVisualization:
             csv_line = csv_line[:-1]
             csv_string += csv_line + "\n"
         return csv_string
+    
+    # Function used to convert to csv part of a tabulated data
+    # A number of first rows is added as is in the csv file
+    # The rest of the tabulated data is converted to csv
+    # def tabulated_data_to_csv_with_some_rows_added_as_is(self, data, number_of_rows_to_add_as_is):
+    #     csv_string = ""
+    #     # Adding the first rows as is
+    #     for i in range(number_of_rows_to_add_as_is):
+    #         csv_string += str(data).split("\n")[i] + "\n"
+    #     # Adding the rest of the data as csv
+    #     csv_string += self.table_data_with_label_row_ignored_to_csv(str(data).split("\n")[number_of_rows_to_add_as_is])
+    #     return csv_string
 
 # Data stats as strings
     def get_number_of_rows(self, df):
@@ -111,7 +139,18 @@ class DataVisualization:
             # to csv
         self.print_to_csv_file(os.linesep)
         self.print_to_csv_file("Number of rows," + str(df.shape[0]))
-        self.print_to_csv_file("Number of features," + str(df.shape[1]))        
+        self.print_to_csv_file("Number of features," + str(df.shape[1]))       
+
+        # extra empty line for readability
+            # to txt
+        self.print_to_txt_file(os.linesep)
+        self.print_to_txt_file("Dataframe info :")
+        self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
+            #  to CSV
+        # TODO: to finish
+        # self.print_to_csv_file(os.linesep)
+        # self.print_to_csv_file("Dataframe info :")
+        # self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
         
         # extra empty line for readability
             #to txt
