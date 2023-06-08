@@ -40,6 +40,8 @@ class DataCleaningAndProcessing:
     
 #4. Words concatenation
     def concatenate_cell_content(self, cell):
+        # Replacing comas with "_" to avoid issues with csv files
+        cell = cell.replace(",", "_")
         items = cell.split()
         concatenation = "_".join(items)
         return concatenation
