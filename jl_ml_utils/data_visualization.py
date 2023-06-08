@@ -80,15 +80,13 @@ class DataVisualization:
             string += "\n"
         return string
 
-    # Function used to go from tabulated data to CSV data (with first row ignored)
-    def table_data_with_label_row_ignored_to_csv(self, data): 
+    # Function used to go from tabulated data to CSV data
+    def table_data_to_csv(self, data, nbr_of_lines_to_ignore): 
         csv_string = ""              
-        first_line = str(data).split("\n")[0]   
-        # Removing the first line from the data
-        data = str(data).replace(first_line+'\n', "")        
-        # Splitting the data into lines
-        splitted_text = data.split("\n")
-        for line in splitted_text:
+        lines = str(data).split("\n")          
+        elements_for_lines_to_convert_to_csv = lines[nbr_of_lines_to_ignore:]            
+        
+        for line in elements_for_lines_to_convert_to_csv:
             splitted_line = line.split()
             csv_line = ""
             for item in splitted_line:
@@ -133,43 +131,43 @@ class DataVisualization:
     def simple_stats(self, df):
         # extra empty line for readability
             #to txt
-        self.print_to_txt_file(os.linesep)
-        self.print_to_txt_file("Number of rows\t\t" + str(df.shape[0]))
+        self.print_to_txt_file("")
+        self.print_to_txt_file("Number of rows\t" + str(df.shape[0]))
         self.print_to_txt_file("Number of features\t" + str(df.shape[1]))
             # to csv
-        self.print_to_csv_file(os.linesep)
+        self.print_to_csv_file("")
         self.print_to_csv_file("Number of rows," + str(df.shape[0]))
         self.print_to_csv_file("Number of features," + str(df.shape[1]))       
 
         # extra empty line for readability
             # to txt
-        self.print_to_txt_file(os.linesep)
+        self.print_to_txt_file("")
         self.print_to_txt_file("Dataframe info :")
         self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
             #  to CSV
         # TODO: to finish
-        # self.print_to_csv_file(os.linesep)
+        # self.print_to_csv_file("")
         # self.print_to_csv_file("Dataframe info :")
         # self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
         
         # extra empty line for readability
             #to txt
-        self.print_to_txt_file(os.linesep)
+        self.print_to_txt_file("")
         self.print_to_txt_file("Head of the cleaned data :")
         head_of_cleaned_data = df.head()
         self.print_to_txt_file(head_of_cleaned_data)    
             # to csv    
-        self.print_to_csv_file(os.linesep)
+        self.print_to_csv_file("")
         self.print_n_lines_of_csv_file_to_csv_file(self.path_to_cleaned_data, 5)
                
         # extra empty line for readability
             # to txt
-        self.print_to_txt_file(os.linesep)
+        self.print_to_txt_file("")
         self.print_to_txt_file("Description of the dataframe :")     
         stats = df.describe()
         self.print_to_txt_file(stats)
             #  to csv
-        self.print_to_csv_file(os.linesep)
+        self.print_to_csv_file("")
         self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
         self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist())) 
 
