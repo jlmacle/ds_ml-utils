@@ -31,14 +31,25 @@ class DataCleaningAndProcessing:
 
     def remove_rows_with_commas_only(self, path_to_csv_folder, csv_name, number_of_commas_in_empty_row):
         with open(os.path.join(path_to_csv_folder, csv_name), 'r', encoding='utf-8') as file:
-            cleaned_csv_name = csv_name.split('.')[0] + "_1_rows-with-commas-only-removed.csv"
+            cleaned_csv_name = csv_name.split('.')[0] + "-rows_with_commas_only_removed.csv"
             with open(os.path.join(path_to_csv_folder, cleaned_csv_name), 'w', encoding='utf-8') as output_file:
                 for line in file:
                     if (number_of_commas_in_empty_row*',') not in line:
                         output_file.write(line)
         return cleaned_csv_name
+    
+#4. Words concatenation
+    def concatenate_cell_content(self, cell):
+        items = cell.split()
+        concatenation = "_".join(items)
+        return concatenation
+    
+    def concatenate_words_in_df_column(self, df, column_name):
+        print(f"Concatenating words in column {column_name}")
+        df[column_name] = df[column_name].apply(self.concatenate_cell_content)       
+        return df
 
-# 4.
+# 5. Pre pivot table cleaning
     def pre_pivot_table_pre_cleaning(self, df, column1, column2, print_data_for_unique_values):
       results_dict = {}
       column1_series = df[column1]
