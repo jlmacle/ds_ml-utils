@@ -21,13 +21,11 @@ class DataCleaningAndProcessing:
     def drop_duplicates_and_remove_rows_with_data_unavailable_from_csv_file(self, path_to_csv_folder, csv_name, low_memory_setting):
         #  low_memory parameter added to fix the following warning:
         #  DtypeWarning: Columns (76,89) have mixed types. Specify dtype option on import or set low_memory=False.
-        data_frame = pd.read_csv(os.path.join(path_to_csv_folder, csv_name), low_memory=low_memory_setting)
+        df = pd.read_csv(os.path.join(path_to_csv_folder, csv_name), low_memory=low_memory_setting)
 
-        data_frame = data_frame.drop_duplicates()
-        data_frame = data_frame.dropna()
-        # Creation of cleaned file name from original csv file name
-        cleaned_csv_name = csv_name.split('.')[0] + "_na_and_duplicates_removed.csv"
-        data_frame.to_csv(os.path.join(path_to_csv_folder,cleaned_csv_name),index=False)
+        df = df.drop_duplicates()
+        df = df.dropna()        
+        return df
 
     def remove_rows_with_commas_only(self, path_to_csv_folder, csv_name, number_of_commas_in_empty_row):
         with open(os.path.join(path_to_csv_folder, csv_name), 'r', encoding='utf-8') as file:
@@ -52,7 +50,10 @@ class DataCleaningAndProcessing:
         return df
     
     # TODO: to finish
-    # def trim_strings_in_df(self)
+    # def trim_strings_in_df(self. df):
+        
+    #      return df
+         
 
 # 5. Pre pivot table cleaning
     def pre_pivot_table_pre_cleaning(self, df, column1, column2, print_data_for_unique_values):
@@ -87,10 +88,9 @@ class DataCleaningAndProcessing:
                 mask = df[column] == label
                 df_for_lines = df[mask]
                 line_numbers = df_for_lines.index.tolist()  
-                # numbers need to be incremented by 2 
+                # numbers need to be incremented by 1
                 # because the first line is the header 
-                # and the indexation starts from 0
-                line_numbers_updated = [x + 2 for x in line_numbers]
+                line_numbers_updated = [x + 1 for x in line_numbers]
                 results[label] = line_numbers_updated
         print(f"Lines numbers where {labels_list} can be found :")
         print(results)
