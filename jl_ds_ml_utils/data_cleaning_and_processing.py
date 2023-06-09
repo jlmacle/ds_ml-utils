@@ -38,7 +38,7 @@ class DataCleaningAndProcessing:
                         output_file.write(line)
         return cleaned_csv_name
     
-#4. Words concatenation
+#4. Cell processing
     def concatenate_cell_content(self, cell):
         # Replacing comas with "_" to avoid issues with csv files
         cell = cell.replace(",", "_")
@@ -50,6 +50,9 @@ class DataCleaningAndProcessing:
         print(f"Concatenating words in column {column_name}")
         df[column_name] = df[column_name].apply(self.concatenate_cell_content)       
         return df
+    
+    # TODO: to finish
+    # def trim_strings_in_df(self)
 
 # 5. Pre pivot table cleaning
     def pre_pivot_table_pre_cleaning(self, df, column1, column2, print_data_for_unique_values):
