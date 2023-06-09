@@ -95,18 +95,6 @@ class DataVisualization:
             csv_string += csv_line + "\n"
         return csv_string
     
-    # Function used to convert to csv part of a tabulated data
-    # A number of first rows is added as is in the csv file
-    # The rest of the tabulated data is converted to csv
-    # def tabulated_data_to_csv_with_some_rows_added_as_is(self, data, number_of_rows_to_add_as_is):
-    #     csv_string = ""
-    #     # Adding the first rows as is
-    #     for i in range(number_of_rows_to_add_as_is):
-    #         csv_string += str(data).split("\n")[i] + "\n"
-    #     # Adding the rest of the data as csv
-    #     csv_string += self.table_data_with_label_row_ignored_to_csv(str(data).split("\n")[number_of_rows_to_add_as_is])
-    #     return csv_string
-
 # Data stats as strings
     def get_number_of_rows(self, df):
         return str(df.shape[0])
@@ -140,15 +128,15 @@ class DataVisualization:
         self.print_to_csv_file("Number of features," + str(df.shape[1]))       
 
         # extra empty line for readability
+        data = self.print_function_output_and_not_the_return_value_to_string(df.info,[])   
             # to txt
         self.print_to_txt_file("")
         self.print_to_txt_file("Dataframe info :")
-        self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
+        self.print_to_txt_file(data)
             #  to CSV
-        # TODO: to finish
-        # self.print_to_csv_file("")
-        # self.print_to_csv_file("Dataframe info :")
-        # self.print_function_output_and_not_the_return_value_to_txt_file(df.info,[])
+        self.print_to_csv_file("")
+        self.print_to_csv_file("Dataframe info :")            
+        self.print_to_csv_file(self.table_data_to_csv(data, 3))
         
         # extra empty line for readability
             #to txt
@@ -158,6 +146,7 @@ class DataVisualization:
         self.print_to_txt_file(head_of_cleaned_data)    
             # to csv    
         self.print_to_csv_file("")
+        # TODO : table_data_to_csv to use instead
         self.print_n_lines_of_csv_file_to_csv_file(self.path_to_cleaned_data, 5)
                
         # extra empty line for readability
