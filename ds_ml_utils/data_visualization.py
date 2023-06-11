@@ -37,14 +37,6 @@ class DataVisualization:
             print(text)
             sys.stdout = sys.__stdout__
 
-    # Function used to print the output of a function with no return value into a file
-    def print_function_output_and_not_the_return_value_to_txt_file(self, function, *args):
-        with open(os.path.join(self.path_to_folder, self.txt_file_name), 'a') as file:
-            sys.stdout = file
-            # Will print in the file
-            function(*args)
-            sys.stdout = sys.__stdout__
-
     # Function used to print the output of a function with no return value into a string
     def print_function_output_and_not_the_return_value_to_string(self, function, *args):
         string = StringIO()
@@ -126,7 +118,7 @@ class DataVisualization:
         self.print_to_csv_file("")
         self.print_to_csv_file("Number of rows," + str(df.shape[0]))
         self.print_to_csv_file("Number of features," + str(df.shape[1]))       
-
+        
         # extra empty line for readability
         data = self.print_function_output_and_not_the_return_value_to_string(df.info,[])   
             # to txt
