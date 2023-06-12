@@ -36,25 +36,47 @@ class DataCleaningAndProcessing:
                         output_file.write(line)
         return cleaned_csv_name
     
-#4. Cell processing
-    def concatenate_cell_content(self, cell):
-        # Replacing comas with "_" to avoid issues with csv files
-        cell = cell.replace(",", "_")
-        items = cell.split()
-        concatenation = "_".join(items)
-        return concatenation
-    
-    def concatenate_words_in_df_column(self, df, column_name):
-        print(f"Concatenating words in column {column_name}")
-        df[column_name] = df[column_name].apply(self.concatenate_cell_content)       
+#4. Cell processing  
+# TODO : code re-write toward a single function for the cells processing
+    def concatenate_cells_content(self, df, separator_for_space):
+        df = df.apply(lambda x: x.str.replace(" ",separator_for_space) if x.dtype == "object" else x)
         return df
     
-    # TODO: to finish
-    # def trim_strings_in_df(self. df):
-        
-    #      return df
-         
+    def trim_cells_content(self, df):
+        df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+        return df
+    
+    def commas_in_cells_removal(self, df, separator_for_comma):
+        df = df.apply(lambda x: x.str.replace(",",separator_for_comma) if x.dtype == "object" else x)
+        return df
+    
+    def cells_processing(self, df, separator_for_space, separator_for_comma):
+        print("1. Cell trimming")
+        df = self.trim_cells_content(df)
+        print("2. Cell content concatenation")
+        df = self.concatenate_cells_content(df, separator_for_space)
+        print("3. Commas removal")
+        df = self.commas_in_cells_removal(df, separator_for_comma)
+        return df
+    
+    #TODO : potential code re-write with lambda function
+    def concatenate_cell_content(self, cell, separator):    
+        if isinstance(cell, str):
+            return separator.join(cell.split())
+        else:
+            return cell
 
+    def concatenate_words_in_column_cells(self, df, column_name, separator):
+        print(f"Concatenating words in column {column_name}")
+        df[column_name] = df[column_name].apply(lambda cell: self.concatenate_cell_content(cell, separator))       
+        return df
+    
+    def concatenate_header_content(self,df,separator):
+        print("Concatenating header content")
+        df.columns = df.columns.str.replace(' ', separator)
+        return df   
+    
+    
 # 5. Pre pivot table cleaning
     def pre_pivot_table_pre_cleaning(self, df, column1, column2, print_data_for_unique_values):
       results_dict = {}
