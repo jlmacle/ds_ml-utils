@@ -5,7 +5,7 @@ class _DataPath:
     def __init__(self) -> None:
         self.data_path = data_path_class()
 
-        self.data_path.set_path_to_csv_folder(os.path.join(os.getcwd(),"data"))
+        self.data_path.set_path_to_data_folder(os.path.join(os.getcwd(),"data"))
         self.data_path.set_file_name_for_csv_with_original_data("adult.csv") 
         self.data_path.set_file_name_for_csv_with_cleaned_data("adult-cleaned_data.csv")
             
