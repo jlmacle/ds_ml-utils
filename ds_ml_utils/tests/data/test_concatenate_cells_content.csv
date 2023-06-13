@@ -1,0 +1,6 @@
+Age,Workclass,Fnlwgt,Education,Education  Num,                          Marital status,Occupation,Relationship
+,State-gov,77517,Bachelors,13,15_F2_CCC_Never_married,Adm_clerical,Not-in-family
+39.0,State-gov,77515,Bachelors2,13,Never-married,Adm-clerical,Not-in-family
+39.0,State-gov,77516,Bachelors,13,Never-married,Adm-clerical,Not-in-family
+50.0,Self-emp-not-inc,83311,Bachelors,13,Married-civ-spouse,Exec-managerial,Husband
+38.0,Private,215646,HS-grad,"E6-9,,,,,",Divorced,G6-Handlers-cleaners,Not-in-family
