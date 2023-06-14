@@ -11,6 +11,8 @@ class DataPath:
         self.csv_report_file_name = "Undefined"
         self.txt_report_file_name = "Undefined"
 
+#  *** Getters ***
+
     def get_path_to_data_folder(self):
         return self.path_to_data_folder
     
@@ -41,6 +43,8 @@ class DataPath:
     def get_path_to_txt_file_with_data_for_reporting(self): 
         return os.path.join(self.path_to_folder_with_data_for_reporting, self.txt_report_file_name)
     
+
+#  *** Setters ***
     def set_path_to_data_folder(self, path_to_data_folder):   
         self.path_to_data_folder = path_to_data_folder
 

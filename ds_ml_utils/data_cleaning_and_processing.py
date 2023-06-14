@@ -5,6 +5,9 @@ import os
 # 1. Data imports
 # 2. Data encoding fixing
 # 3. Row removals
+# 4. Header processing
+# 5. Cells processing
+# 6. Pre pivot table cleaning
 
 class DataCleaningAndProcessing:    
 # 1. Data imports
@@ -27,58 +30,52 @@ class DataCleaningAndProcessing:
         df = df.dropna()        
         return df
 
-    def remove_rows_with_commas_only(self, path_to_csv_folder, csv_name, number_of_commas_in_empty_row):
+    def remove_rows_with_commas_only(self, path_to_csv_folder, csv_name, number_of_commas_in_empty_row, low_memory_setting):
         with open(os.path.join(path_to_csv_folder, csv_name), 'r', encoding='utf-8') as file:
             cleaned_csv_name = csv_name.split('.')[0] + "-rows_with_commas_only_removed.csv"
             with open(os.path.join(path_to_csv_folder, cleaned_csv_name), 'w', encoding='utf-8') as output_file:
                 for line in file:
                     if (number_of_commas_in_empty_row*',') not in line:
                         output_file.write(line)
-        return cleaned_csv_name
-    
-#4. Cell processing  
-# TODO : code re-write toward a single function for the cells processing
-    def concatenate_cells_content(self, df, separator_for_space):
-        df = df.apply(lambda x: x.str.replace(" ",separator_for_space) if x.dtype == "object" else x)
+        df = pd.read_csv(os.path.join(path_to_csv_folder, cleaned_csv_name), low_memory=low_memory_setting)
         return df
-    
+
+# 4. Header processing
+    def trim_header_content(self, df):
+        print("--> Header content trimming")
+        df.columns = df.columns.str.strip()
+        return df
+
+    def concatenate_header_content(self,df,separator_for_space):
+        print("--> Header content concatenation ")
+        df.columns = df.columns.str.replace(' ', separator_for_space)
+        return df   
+
+    def header_processing(self, df, separator_to_replace_space):
+        df = self.trim_header_content(df)
+        df = self.concatenate_header_content(df, separator_to_replace_space)
+        return df
+
+# 5. Cell processing  
+
     def trim_cells_content(self, df):
         df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
         return df
+ 
+    def concatenate_cells_content(self, df, separator_for_space):
+        df = df.apply(lambda x: x.str.replace(" ",separator_for_space) if x.dtype == "object" else x)
+        return df    
     
-    def commas_in_cells_removal(self, df, separator_for_comma):
-        df = df.apply(lambda x: x.str.replace(",",separator_for_comma) if x.dtype == "object" else x)
-        return df
-    
-    def cells_processing(self, df, separator_for_space, separator_for_comma):
-        print("1. Cell trimming")
+    def cells_processing(self, df, separator_to_replace_space):
+        print("--> Cell content trimming")
         df = self.trim_cells_content(df)
-        print("2. Cell content concatenation")
-        df = self.concatenate_cells_content(df, separator_for_space)
-        print("3. Commas removal")
-        df = self.commas_in_cells_removal(df, separator_for_comma)
+        print("--> Cell content concatenation")
+        df = self.concatenate_cells_content(df, separator_to_replace_space)
+        
         return df
     
-    #TODO : potential code re-write with lambda function
-    def concatenate_cell_content(self, cell, separator):    
-        if isinstance(cell, str):
-            return separator.join(cell.split())
-        else:
-            return cell
-
-    def concatenate_words_in_column_cells(self, df, column_name, separator):
-        print(f"Concatenating words in column {column_name}")
-        df[column_name] = df[column_name].apply(lambda cell: self.concatenate_cell_content(cell, separator))       
-        return df
-    
-    def concatenate_header_content(self,df,separator):
-        print("Concatenating header content")
-        df.columns = df.columns.str.replace(' ', separator)
-        return df   
-    
-    
-# 5. Pre pivot table cleaning
-    def pre_pivot_table_pre_cleaning(self, df, column1, column2, print_data_for_unique_values):
+# 6. Pre pivot table cleaning
+    def pre_pivot_table_cleaning_need_detection(self, df, column1, column2, print_data_for_unique_values):
       results_dict = {}
       column1_series = df[column1]
       column1_series_unique_values = column1_series.unique()
@@ -107,7 +104,7 @@ class DataCleaningAndProcessing:
     def line_finding_given_labels_and_column(self, df, column, labels_list):
         results = {}
         for label in labels_list:            
-                mask = df[column] == label
+                mask = df[column] == label               
                 df_for_lines = df[mask]
                 line_numbers = df_for_lines.index.tolist()  
                 # numbers need to be incremented by 1
