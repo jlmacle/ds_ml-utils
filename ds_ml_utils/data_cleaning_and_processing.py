@@ -110,10 +110,15 @@ class DataCleaningAndProcessing:
                 # numbers need to be incremented by 1
                 # because the first line is the header 
                 line_numbers_updated = [x + 1 for x in line_numbers]
-                results[label] = line_numbers_updated
-        print(f"Lines numbers where {labels_list} can be found :")
-        print(results)
-        return results
+                results[label] = line_numbers_updated                
+        print(f"Lines numbers where {labels_list} can be found :")        
+        # Sorting by line numbers and labels
+        sorted_results = {}
+        for label in results:
+             for line_number in results[label]:
+                 sorted_results[line_number] = label
+        sorted_results = dict(sorted(sorted_results.items(), key=lambda pair: pair[0]))
+        return sorted_results
 
 
 # Encoding issues encountered :
