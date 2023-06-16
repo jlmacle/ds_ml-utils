@@ -21,7 +21,11 @@ class DataCleaningAndProcessing:
    
     
 # 3. Row removals
-    def drop_duplicates_and_remove_rows_with_data_unavailable_from_csv_file(self, path_to_csv_folder, csv_name, low_memory_setting):
+    def removes_rows_with_empty_data_from_column(self, df, column_name):
+       df = df.dropna(subset=[column_name])
+       return df
+
+    def drop_duplicates_and_remove_rows_with_empty_data_from_csv_file(self, path_to_csv_folder, csv_name, low_memory_setting):
         #  low_memory parameter added to fix the following warning:
         #  DtypeWarning: Columns (76,89) have mixed types. Specify dtype option on import or set low_memory=False.
         df = pd.read_csv(os.path.join(path_to_csv_folder, csv_name), low_memory=low_memory_setting)
@@ -63,15 +67,39 @@ class DataCleaningAndProcessing:
         return df
  
     def concatenate_cells_content(self, df, separator_for_space):
-        df = df.apply(lambda x: x.str.replace(" ",separator_for_space) if x.dtype == "object" else x)
-        return df    
+        print("-----> Converting one to many spaces to one underscore")
+        df = df.replace('[ ]+', '_', regex=True)
+        return df  
     
-    def cells_processing(self, df, separator_to_replace_space):
+    def remove_commas_from_df(self, df):        
+        df = df.replace(',', '', regex=True)
+        return df
+    
+    def cells_processing_basic(self, df, separator_to_replace_space):
         print("--> Cell content trimming")
         df = self.trim_cells_content(df)
         print("--> Cell content concatenation")
-        df = self.concatenate_cells_content(df, separator_to_replace_space)
-        
+        df = self.concatenate_cells_content(df, separator_to_replace_space)  
+        print("--> Removing commas from df")
+        df = self.remove_commas_from_df(df) 
+
+        return df
+
+    def cells_processing_to_uppercase_in_column(self, df, column_name):
+        print(f"--> Cell content to uppercase in column {column_name}")
+        df[column_name] = df[column_name].str.upper()
+        return df
+    
+    def from_dollar_strings_to_floats(self, df, column_name):
+        print(f"--> Converting dollar strings to floats in {column_name} ")
+        df[column_name] = df[column_name].str.replace('$', '', regex=False)
+        df[column_name] = df[column_name].str.replace(',', '', regex=False)
+        df[column_name] = df[column_name].astype(float)
+        return df
+    
+    def from_several_underscore_strings_to_one(self, df):
+        print("--> Converting several underscore strings to one")
+        df = df.replace('[_]+', '_', regex=True)
         return df
     
 # 6. Pre pivot table cleaning
