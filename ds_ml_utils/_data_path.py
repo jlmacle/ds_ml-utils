@@ -8,8 +8,8 @@ class DataPath:
         self.path_to_original_data = "Undefined"
         self.path_to_cleaned_data = "Undefined"
         self.path_to_folder_with_data_for_reporting = "Undefined"
-        self.csv_report_file_name = "Undefined"
-        self.txt_report_file_name = "Undefined"
+        self.file_name_for_file_with_reporting_data_in_csv_format = "Undefined"
+        self.file_name_for_file_with_reporting_data_in_txt_format = "Undefined"
 
 #  *** Getters ***
 
@@ -32,16 +32,16 @@ class DataPath:
         return self.path_to_folder_with_data_for_reporting
     
     def get_file_name_for_csv_file_with_data_for_reporting(self):
-        return self.csv_report_file_name
+        return self.file_name_for_file_with_reporting_data_in_csv_format
     
     def get_path_to_csv_file_with_data_for_reporting(self):
-        return os.path.join(self.path_to_folder_with_data_for_reporting, self.csv_report_file_name)
+        return os.path.join(self.path_to_folder_with_data_for_reporting, self.file_name_for_file_with_reporting_data_in_csv_format)
     
     def get_file_name_for_txt_file_with_data_for_reporting(self):
-        return self.txt_report_file_name
+        return self.file_name_for_file_with_reporting_data_in_txt_format
     
     def get_path_to_txt_file_with_data_for_reporting(self): 
-        return os.path.join(self.path_to_folder_with_data_for_reporting, self.txt_report_file_name)
+        return os.path.join(self.path_to_folder_with_data_for_reporting, self.file_name_for_file_with_reporting_data_in_txt_format)
     
 
 #  *** Setters ***
@@ -57,11 +57,11 @@ class DataPath:
     def set_path_to_folder_with_data_for_reporting(self, path_to_folder_with_data_for_reporting):
         self.path_to_folder_with_data_for_reporting = path_to_folder_with_data_for_reporting
     
-    def set_file_name_for_csv_file_with_data_for_reporting(self, csv_report_file_name):
-        self.csv_report_file_name = csv_report_file_name
+    def set_file_name_for_csv_file_with_data_for_reporting(self, file_name_for_file_with_reporting_data_in_csv_format):
+        self.file_name_for_file_with_reporting_data_in_csv_format = file_name_for_file_with_reporting_data_in_csv_format
 
-    def set_file_name_for_txt_file_with_data_for_reporting(self, txt_report_file_name):
-        self.txt_report_file_name = txt_report_file_name
+    def set_file_name_for_txt_file_with_data_for_reporting(self, file_name_for_file_with_reporting_data_in_txt_format):
+        self.file_name_for_file_with_reporting_data_in_txt_format = file_name_for_file_with_reporting_data_in_txt_format
     
     
     

@@ -8,10 +8,10 @@ from io import StringIO
 class DataVisualization:      
 
 # Setting files related data
-    def set_csv_report_file_name(self,csv_file_name):
+    def set_file_name_for_file_with_reporting_data_in_csv_format(self,csv_file_name):
         self.csv_file_name = csv_file_name
 
-    def set_txt_report_file_name(self, txt_file_name):
+    def set_file_name_for_file_with_reporting_data_in_txt_format(self, txt_file_name):
         self.txt_file_name = txt_file_name
 
     def set_report_folder_path(self, path_to_folder):
@@ -151,6 +151,13 @@ class DataVisualization:
         self.print_to_csv_file("")
         self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
         self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist())) 
+
+        # extra empty line for readability
+            # to txt only (part of the exploratory data analysis)
+        self.print_to_txt_file("")
+        self.print_to_txt_file("Null values per column :")
+        self.print_to_txt_file(df.isnull().sum())
+
 
 # Misc
     def get_unique_count_values_csv_row(self):
