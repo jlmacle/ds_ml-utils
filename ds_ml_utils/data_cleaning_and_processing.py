@@ -1,3 +1,5 @@
+# from ds_ml_utils.datas_structures.trie import Trie as trie_class
+
 import numpy as np
 import pandas as pd
 import os
@@ -7,7 +9,8 @@ import os
 # 3. Row removals
 # 4. Header processing
 # 5. Cells processing
-# 6. Pre pivot table cleaning
+# 6. Column processing
+# 7. Pre pivot table cleaning
 
 class DataCleaningAndProcessing:    
 # 1. Data imports
@@ -32,17 +35,16 @@ class DataCleaningAndProcessing:
 
         df = df.drop_duplicates()
         df = df.dropna()        
-        return df
+        return df    
+    
+    def drop_duplicates_and_remove_rows_with_only_empty_data_from_df(self, path_to_csv_folder, csv_name, low_memory_setting):
+        #  low_memory parameter added to fix the following warning:
+        #  DtypeWarning: Columns (76,89) have mixed types. Specify dtype option on import or set low_memory=False.
+        df = pd.read_csv(os.path.join(path_to_csv_folder, csv_name), low_memory=low_memory_setting)
 
-    def remove_rows_with_commas_only(self, path_to_csv_folder, csv_name, number_of_commas_in_empty_row, low_memory_setting):
-        with open(os.path.join(path_to_csv_folder, csv_name), 'r', encoding='utf-8') as file:
-            cleaned_csv_name = csv_name.split('.')[0] + "-rows_with_commas_only_removed.csv"
-            with open(os.path.join(path_to_csv_folder, cleaned_csv_name), 'w', encoding='utf-8') as output_file:
-                for line in file:
-                    if (number_of_commas_in_empty_row*',') not in line:
-                        output_file.write(line)
-        df = pd.read_csv(os.path.join(path_to_csv_folder, cleaned_csv_name), low_memory=low_memory_setting)
-        return df
+        df = df.drop_duplicates()
+        df = df.dropna(how='all')        
+        return df   
 
 # 4. Header processing
     def trim_header_content(self, df):
@@ -101,8 +103,22 @@ class DataCleaningAndProcessing:
         print("--> Converting several underscore strings to one")
         df = df.replace('[_]+', '_', regex=True)
         return df
-    
-# 6. Pre pivot table cleaning
+
+# 6. Column processing
+    # TODO: to correct the issue
+    # def get_trie_with_words_from_column(self, df, column_name):
+    #     print(f"--> Extracting words from the cells in column {column_name} to put them in a trie")
+    #     # Splitting the cells content into words using the '_' separator
+    #     df[column_name] = df[column_name].str.split('_')
+    #     # Creating a trie from the words
+    #     trie = trie_class()
+    #     for index, row in df.iterrows():
+    #         for word in row[column_name]:
+    #             trie.insert(word)
+    #     return trie
+            
+
+# 7. Pre pivot table cleaning
     def pre_pivot_table_cleaning_need_detection(self, df, column1, column2, print_data_for_unique_values):
       results_dict = {}
       column1_series = df[column1]
