@@ -1,4 +1,4 @@
-# from ds_ml_utils.datas_structures.trie import Trie as trie_class
+from ds_ml_utils.datas_structures.trie import Trie
 
 import numpy as np
 import pandas as pd
@@ -106,16 +106,17 @@ class DataCleaningAndProcessing:
 
 # 6. Column processing
     # TODO: to correct the issue
-    # def get_trie_with_words_from_column(self, df, column_name):
-    #     print(f"--> Extracting words from the cells in column {column_name} to put them in a trie")
-    #     # Splitting the cells content into words using the '_' separator
-    #     df[column_name] = df[column_name].str.split('_')
-    #     # Creating a trie from the words
-    #     trie = trie_class()
-    #     for index, row in df.iterrows():
-    #         for word in row[column_name]:
-    #             trie.insert(word)
-    #     return trie
+    def get_trie_with_words_from_column(self, df, column_name):
+        print(f"--> Extracting words from the cells in column {column_name} to put them in a trie")
+        # Splitting the cells content into words using the '_' separator
+        column_name_series = df[column_name]
+        series_splitted = column_name_series.str.split('_')
+        # Creating a trie from the words
+        trie = Trie()
+        for list in series_splitted:
+            for word in list:
+                trie.insert(word)
+        return trie
             
 
 # 7. Pre pivot table cleaning
