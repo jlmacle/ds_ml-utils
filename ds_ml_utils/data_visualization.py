@@ -21,7 +21,7 @@ class DataVisualization:
         self.path_to_cleaned_data = path_to_cleaned_data
 
 # Print utilities
-    # Functions used to print the console output into a file
+    # Functions used to print the console output into the csv file with data for the reporting
     def print_to_csv_file(self, text: str):         
         with open(os.path.join(self.path_to_folder, self.csv_file_name), 'a') as file:
             sys.stdout = file
@@ -29,9 +29,17 @@ class DataVisualization:
             print(text)
             sys.stdout = sys.__stdout__
 
-    # Function used to print the console output into a file
+    # Function used to print the console output into the txt file with data for the reporting
     def print_to_txt_file(self, text: str):         
         with open(os.path.join(self.path_to_folder, self.txt_file_name), 'a') as file:
+            sys.stdout = file
+            # Will print in the file
+            print(text)
+            sys.stdout = sys.__stdout__
+
+    # Function used to print the console output into a specified txt file 
+    def print_to_specified_txt_file(self, text: str, path_to_file: str, mode):
+        with open(path_to_file, mode) as file:
             sys.stdout = file
             # Will print in the file
             print(text)
