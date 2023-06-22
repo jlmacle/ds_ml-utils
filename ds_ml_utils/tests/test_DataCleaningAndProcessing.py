@@ -2,7 +2,6 @@ from ds_ml_utils.data_cleaning_and_processing import DataCleaningAndProcessing a
 from _DataPath import _DataPath as _data_path_class
 import pytest, string, os
 
-# Cleaning the data before processing
 dcp = dcp_class()
 _data_path = _data_path_class()
 data_path = _data_path.get_data_path_object()
@@ -10,7 +9,6 @@ data_path = _data_path.get_data_path_object()
 path_to_original_data = data_path.get_path_to_original_csv_file()
 path_to_data_after_trimming = os.path.join(data_path.get_path_to_data_folder(), 'test_trim_cells_content.csv')
 path_to_data_after_concatenation = os.path.join(data_path.get_path_to_data_folder(), 'test_concatenate_cells_content.csv')
-path_to_data_after_commas_removal = os.path.join(data_path.get_path_to_data_folder(), 'test_commas_in_cells_removal.csv')
 df = None
 
 def letter_to_number(column_letter):
@@ -48,6 +46,7 @@ def return_df_after_concatenation():
 def test_trim_cells_content(return_df_original_data):
     df = return_df_original_data
     df = dcp.trim_cells_content(df)
+    # Saving the data to a csv file for manual inspection
     df.to_csv(path_to_data_after_trimming, index=False)
 
     # Testing that the trimming occured if cell is G6
@@ -61,6 +60,7 @@ def test_trim_cells_content(return_df_original_data):
 def test_concatenate_cells_content(return_df_after_trimming):
     df = return_df_after_trimming
     df = dcp.concatenate_cells_content(df, separator_for_space='_') 
+    # Saving the data to a csv file for manual inspection
     df.to_csv(path_to_data_after_concatenation, index=False)
     # *** Staying away from header data when using iloc ***
     # Testing that the concatenation occured if cell is F2
@@ -68,17 +68,12 @@ def test_concatenate_cells_content(return_df_after_trimming):
     produced_data = get_cell_content(df, 'F', 1)
     assert( (data_if_concatenated   == produced_data ) )
 
-# commas_in_cells_removal test
-@pytest.mark.dependency(depends=['test_concatenate_cells_content'])
-def test_commas_in_cells_removal(return_df_after_concatenation):
-    df = return_df_after_concatenation
-    df = dcp.commas_in_cells_removal(df,"")
-    df.to_csv(path_to_data_after_commas_removal, index=False)
-    # Testing that the commas are removed if cell is E6
-    data_if_commas_removed = "E6-9"
-    produced_data = get_cell_content(df, 'E', 5)
-    assert( (data_if_commas_removed   == produced_data ) )
-    
+# # words in file to list test
+def test_import_word_list_in_file_to_list():
+    file_name_for_file_with_words = "words_in_trie-to_list_test.txt"
+    path_to_words = os.path.join(data_path.get_path_to_data_folder(),file_name_for_file_with_words)
+    list = dcp.import_word_list_in_file_to_list(path_to_words)
+    assert( list == ["(A","(AB","(ADAS)","(ADOBE]"] )
 
 
 
