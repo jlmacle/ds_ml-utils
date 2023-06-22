@@ -1,3 +1,5 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
 from ds_ml_utils.datas_structures.trie import Trie
 
 import numpy as np
@@ -11,6 +13,7 @@ import os
 # 5. Cells processing
 # 6. Column processing
 # 7. Pre pivot table cleaning
+# 8. Information clustering
 
 class DataCleaningAndProcessing:    
 # 1. Data imports
@@ -19,6 +22,18 @@ class DataCleaningAndProcessing:
     
     def import_csv_to_df(self, path_to_csv_file, low_memory_setting):
         return pd.read_csv(path_to_csv_file, low_memory=low_memory_setting)
+    
+    # to remember : the trie does not store duplicate values
+    def import_word_list_in_file_to_list(self, path_to_file):
+        list_of_words = []
+        with open(path_to_file, 'r') as f:
+            for line in f:
+                word = line.strip()
+                # an empty string evaluates to False in Python
+                # TODO: to test with a list of words with empty lines
+                if word:
+                    list_of_words.append(word)
+        return list_of_words               
 
 # 2. Data encoding fixing 
    
@@ -105,7 +120,6 @@ class DataCleaningAndProcessing:
         return df
 
 # 6. Column processing
-    # TODO: to correct the issue
     def get_trie_with_words_from_column(self, df, column_name):
         print(f"--> Extracting words from the cells in column {column_name} to put them in a trie")
         # Splitting the cells content into words using the '_' separator
@@ -164,6 +178,9 @@ class DataCleaningAndProcessing:
                  sorted_results[line_number] = label
         sorted_results = dict(sorted(sorted_results.items(), key=lambda pair: pair[0]))
         return sorted_results
+
+# 8. Information clustering
+    
 
 
 # Encoding issues encountered :
