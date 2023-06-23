@@ -4,6 +4,7 @@ from ds_ml_utils.datas_structures.trie import Trie
 
 import numpy as np
 import pandas as pd
+import re
 import os
 
 # 1. Data imports
@@ -13,9 +14,11 @@ import os
 # 5. Cells processing
 # 6. Column processing
 # 7. Pre pivot table cleaning
-# 8. Information clustering
+# 8. Pattern finding
+# 9. Information clustering
 
 class DataCleaningAndProcessing:    
+    
 # 1. Data imports
     def import_csv_to_numpy_array(self, path_to_csv_file, skip_header_option):
         return np.genfromtxt(path_to_csv_file, delimiter=',' , skip_header=skip_header_option)    
@@ -120,11 +123,11 @@ class DataCleaningAndProcessing:
         return df
 
 # 6. Column processing
-    def get_trie_with_words_from_column(self, df, column_name):
+    def get_trie_with_words_from_column(self, df, column_name, separator):
         print(f"--> Extracting words from the cells in column {column_name} to put them in a trie")
         # Splitting the cells content into words using the '_' separator
         column_name_series = df[column_name]
-        series_splitted = column_name_series.str.split('_')
+        series_splitted = column_name_series.str.split(separator)
         # Creating a trie from the words
         trie = Trie()
         for list in series_splitted:
@@ -179,8 +182,19 @@ class DataCleaningAndProcessing:
         sorted_results = dict(sorted(sorted_results.items(), key=lambda pair: pair[0]))
         return sorted_results
 
-# 8. Information clustering
+# 8. Pattern finding
+    def locate_pattern(self, df, column_name, pattern):
+        df = df[column_name]
+        line_numbers = []
+        for index, row in df.items():
+            if re.search(pattern, str(row)):
+                matches = re.findall(pattern, str(row))
+                line_numbers.append(index+2)       
+        return line_numbers
+
+# 9. Information clustering
     
+  
 
 
 # Encoding issues encountered :
