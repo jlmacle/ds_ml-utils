@@ -182,8 +182,8 @@ class DataCleaningAndProcessing:
         sorted_results = dict(sorted(sorted_results.items(), key=lambda pair: pair[0]))
         return sorted_results
 
-# 8. Pattern finding
-    def locate_pattern(self, df, column_name, pattern):
+# 8. Pattern finding / removal
+    def locate_pattern_in_column(self, df, column_name, pattern):
         df = df[column_name]
         line_numbers = []
         for index, row in df.items():
@@ -191,6 +191,10 @@ class DataCleaningAndProcessing:
                 matches = re.findall(pattern, str(row))
                 line_numbers.append(index+2)       
         return line_numbers
+    
+    def remove_pattern_from_column(self, df, column_name, pattern): 
+        df[column_name] = df[column_name].str.replace(pattern, '', regex=True)
+        return df
 
 # 9. Information clustering
     
