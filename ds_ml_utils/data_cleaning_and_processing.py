@@ -185,12 +185,13 @@ class DataCleaningAndProcessing:
 # 8. Pattern finding / removal
     def locate_pattern_in_column(self, df, column_name, pattern):
         df = df[column_name]
-        line_numbers = []
+        counter = 0
         for index, row in df.items():
             if re.search(pattern, str(row)):
-                matches = re.findall(pattern, str(row))
-                line_numbers.append(index+2)       
-        return line_numbers
+                print(f"{row} in line {index+2}") 
+                counter += 1
+                if counter%3 == 0:
+                    print()  
     
     def remove_pattern_from_column(self, df, column_name, pattern): 
         df[column_name] = df[column_name].str.replace(pattern, '', regex=True)
