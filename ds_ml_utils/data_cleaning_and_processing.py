@@ -196,6 +196,10 @@ class DataCleaningAndProcessing:
     def remove_pattern_from_column(self, df, column_name, pattern): 
         df[column_name] = df[column_name].str.replace(pattern, '', regex=True)
         return df
+    
+    def replace_pattern_in_column(self, df, column_name, pattern, replacement):
+        df[column_name] = df[column_name].str.replace(pattern, replacement, regex=True)
+        return df
 
 # 9. Information clustering
     
