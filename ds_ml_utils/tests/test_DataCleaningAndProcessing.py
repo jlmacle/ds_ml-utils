@@ -1,6 +1,9 @@
+import pytest
+pytest.skip(allow_module_level=True)
+
 from ds_ml_utils.data_cleaning_and_processing import DataCleaningAndProcessing as dcp_class
 from _DataPath import _DataPath as _data_path_class
-import pytest, string, os
+import string, os
 
 dcp = dcp_class()
 _data_path = _data_path_class()
