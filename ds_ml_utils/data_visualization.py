@@ -117,6 +117,9 @@ class DataVisualization:
     
 # Data stats as jpgs
     def simple_stats(self, df):
+        # Modifying the display options to have all columns displayed
+        pd.set_option('display.max_columns', None)   
+        
         # extra empty line for readability
             #to txt
         self.print_to_txt_file("")
@@ -152,7 +155,7 @@ class DataVisualization:
         # extra empty line for readability
             # to txt
         self.print_to_txt_file("")
-        self.print_to_txt_file("Description of the dataframe :")     
+        self.print_to_txt_file("Dataframe description :")          
         stats = df.describe()
         self.print_to_txt_file(stats)
             #  to csv
