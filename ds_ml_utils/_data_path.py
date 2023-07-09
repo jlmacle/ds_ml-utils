@@ -7,6 +7,7 @@ class DataPath:
         self.csv_name_cleaned = "Undefined"
         self.path_to_original_data = "Undefined"
         self.path_to_cleaned_data = "Undefined"
+        self.path_to_folder_with_data_for_exploratory_analysis = "Undefined"
         self.path_to_folder_with_data_for_reporting = "Undefined"
         self.file_name_for_file_with_reporting_data_in_csv_format = "Undefined"
         self.file_name_for_file_with_reporting_data_in_txt_format = "Undefined"
@@ -28,6 +29,9 @@ class DataPath:
     def get_path_to_cleaned_csv_file(self):
         return os.path.join(self.path_to_data_folder, self.csv_name_cleaned)
     
+    def get_path_to_folder_with_data_for_exploratory_analysis(self):
+        return self.path_to_folder_with_data_for_exploratory_analysis
+
     def get_path_to_folder_with_data_for_reporting(self):
         return self.path_to_folder_with_data_for_reporting
     
@@ -53,6 +57,9 @@ class DataPath:
 
     def set_file_name_for_csv_with_cleaned_data(self, csv_name_cleaned):
         self.csv_name_cleaned = csv_name_cleaned
+
+    def set_path_to_folder_with_data_for_exploratory_analysis(self, path_to_folder_with_data_for_exploratory_analysis):
+        self.path_to_folder_with_data_for_exploratory_analysis = path_to_folder_with_data_for_exploratory_analysis
 
     def set_path_to_folder_with_data_for_reporting(self, path_to_folder_with_data_for_reporting):
         self.path_to_folder_with_data_for_reporting = path_to_folder_with_data_for_reporting
