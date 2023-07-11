@@ -160,7 +160,6 @@ class DataVisualization:
         self.print_to_txt_file(stats)
             #  to csv
         self.print_to_csv_file("")
-        self.print_to_csv_file(",Age,Fnlwgt,Education-Num,Capital gain,Capital loss,Hours-per-week")
         self.print_to_csv_file(self.print_describe_nested_list_to_csv_string(stats.values.tolist())) 
 
         # extra empty line for readability
