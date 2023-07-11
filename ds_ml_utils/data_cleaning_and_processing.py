@@ -44,16 +44,7 @@ class DataCleaningAndProcessing:
 # 3. Row removals
     def removes_rows_with_empty_data_from_column(self, df, column_name):
        df = df.dropna(subset=[column_name])
-       return df
-
-    def drop_duplicates_and_remove_rows_with_empty_data_from_csv_file(self, path_to_csv_folder, csv_name, low_memory_setting):
-        #  low_memory parameter added to fix the following warning:
-        #  DtypeWarning: Columns (76,89) have mixed types. Specify dtype option on import or set low_memory=False.
-        df = pd.read_csv(os.path.join(path_to_csv_folder, csv_name), low_memory=low_memory_setting)
-
-        df = df.drop_duplicates()
-        df = df.dropna()        
-        return df    
+       return df     
     
     def drop_duplicates_and_remove_rows_with_only_empty_data_from_df(self, path_to_csv_folder, csv_name, low_memory_setting):
         #  low_memory parameter added to fix the following warning:
@@ -75,7 +66,7 @@ class DataCleaningAndProcessing:
         df.columns = df.columns.str.replace(' ', separator_for_space)
         return df   
 
-    def header_processing(self, df, separator_to_replace_space):
+    def trim_and_concatenate_header_content(self, df, separator_to_replace_space):
         df = self.trim_header_content(df)
         df = self.concatenate_header_content(df, separator_to_replace_space)
         return df
