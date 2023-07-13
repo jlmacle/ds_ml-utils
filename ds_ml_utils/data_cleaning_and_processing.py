@@ -69,6 +69,7 @@ class DataCleaningAndProcessing:
     def trim_concatenate_lower_case_header_content(self, df, separator_to_replace_space):
         df = self.trim_header_content(df)
         df = self.concatenate_header_content(df, separator_to_replace_space)
+        print("--> Header content to lowercase")
         df.columns = df.columns.str.lower()
         return df
 
@@ -80,11 +81,11 @@ class DataCleaningAndProcessing:
  
     def concatenate_cells_content(self, df, separator_for_space):
         print(f"-----> Converting one to many spaces to one {separator_for_space}")
-        df = df.replace('[ ]+', '_', regex=True)
+        df = df.replace('[ ]+', separator_for_space, regex=True)
         return df  
     
     def remove_commas_from_df(self, df):        
-        df = df.replace(',', '', regex=True)
+        df = df.replace(',', '')
         return df
     
     def cells_processing_basic(self, df, separator_to_replace_space):
